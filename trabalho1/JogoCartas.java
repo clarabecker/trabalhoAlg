@@ -3,10 +3,7 @@ package trabalho1;
 import deque.ArrayDeque;
 import stack.ArrayStack;
 import stack.Stack;
-import utils.Point;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JogoCartas {
