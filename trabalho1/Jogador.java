@@ -5,10 +5,10 @@ import stack.Stack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jogador1 {
+public class Jogador {
     static List<String> CartasNaMão = new ArrayList();
     static Stack<String> CartasColetadas = new ArrayStack<>();
 
-    public Jogador1() {
+    public Jogador() {
     }
 }
