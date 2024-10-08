@@ -9,7 +9,7 @@ import java.util.List;
 public class JogoCartas {
 
     public static void main(String args[]) {
-        String nomeArquivo = "data-structures/src/trabalho1/partidas.txt";
+        String nomeArquivo = "src/partidas.txt";
         List<String[]> instancias = LeitorInstancias.lerInstancias(nomeArquivo);
 
         for (int i = 0; i < 1; i++) {
