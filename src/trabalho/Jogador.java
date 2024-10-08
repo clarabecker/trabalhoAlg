@@ -1,4 +1,4 @@
-package trabalho1;
+package src.trabalho;
 
 import stack.ArrayStack;
 import stack.Stack;

@@ -1,10 +1,7 @@
-package trabalho1;
+package src.trabalho;
 
 import deque.ArrayDeque;
-import stack.ArrayStack;
 import stack.Stack;
-
-import java.util.List;
 
 public class Turno {
     private Jogador jogador;

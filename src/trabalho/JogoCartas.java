@@ -1,4 +1,4 @@
-package trabalho1;
+package src.trabalho;
 
 import deque.ArrayDeque;
 import stack.ArrayStack;
@@ -9,7 +9,7 @@ import java.util.List;
 public class JogoCartas {
 
     public static void main(String args[]) {
-        String nomeArquivo = "src/partidas.txt";
+        String nomeArquivo = "src/trabalho/partidas.txt";
         List<String[]> instancias = LeitorInstancias.lerInstancias(nomeArquivo);
 
         for (int i = 0; i < 1; i++) {
