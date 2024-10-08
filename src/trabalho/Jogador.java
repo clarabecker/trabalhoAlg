@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Jogador {
-    static List<String> CartasNaMão = new ArrayList();
-    static Stack<String> CartasColetadas = new ArrayStack<>();
+    public List<String> CartasNaMão = new ArrayList();
+    public Stack<String> CartasColetadas = new ArrayStack<>();
 
     public Jogador() {
     }
