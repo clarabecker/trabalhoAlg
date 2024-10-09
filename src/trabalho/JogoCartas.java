@@ -24,28 +24,26 @@ public class JogoCartas {
 
     }
 
-    public static void IniciodePartida(Stack<String> CartasCompra) {
+    public static void IniciodePartida(Stack<String> MonteCartas) {
         Jogador jogador1 = new Jogador();
         Jogador jogador2 = new Jogador();
         ArrayDeque<String> CartasMesa = new ArrayDeque<>();
 
         for (int i = 0; i < 12; i++) {
             if (i < 4) {
-                jogador1.CartasNaMão.add(CartasCompra.pop());
+                jogador1.CartasNaMão.add(MonteCartas.pop());
             } else if (i > 4 && i < 8) {
-                jogador2.CartasNaMão.add(CartasCompra.pop());
+                jogador2.CartasNaMão.add(MonteCartas.pop());
             } else {
-                if (!CartasCompra.isEmpty()) {
-                    CartasMesa.addFirst(CartasCompra.pop());
+                if (!MonteCartas.isEmpty()) {
+                    CartasMesa.addFirst(MonteCartas.pop());
                 }
             }
         }
 
-       Turno turno1 = new Turno(jogador1, CartasCompra, CartasMesa);
-        turno1.addCartaDireita("DelRey");
-        turno1.addCartaEsquerda("Opala");
-
-
     }
+
+    
+
 
 }

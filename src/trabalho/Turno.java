@@ -21,17 +21,17 @@ public class Turno {
 
         if (carta.equalsIgnoreCase(CartasMesa.first())) {
             jogador.CartasColetadas.push(CartasMesa.removeFirst());
-
+            adicionou = true;
             while(!CartasMesa.isEmpty()) {
                 if(carta.equalsIgnoreCase(CartasMesa.last())) {
                     jogador.CartasColetadas.push(CartasMesa.removeFirst());
                 } else {
                     AuxDeque.addFirst(CartasMesa.removeLast());
                 }
+            }
 
-                while(!AuxDeque.isEmpty()) {
-                    CartasMesa.addFirst(AuxDeque.removeLast());
-                }
+            while(!AuxDeque.isEmpty()) {
+                CartasMesa.addFirst(AuxDeque.removeLast());
             }
 
         }
@@ -48,17 +48,17 @@ public class Turno {
 
         if (carta.equalsIgnoreCase(CartasMesa.last())) {
             jogador.CartasColetadas.push(CartasMesa.removeLast());
-
+            adicionou = true;
             while(!CartasMesa.isEmpty()) {
                 if(carta.equalsIgnoreCase(CartasMesa.last())) {
                     jogador.CartasColetadas.push(CartasMesa.removeLast());
                 } else {
                     AuxDeque.addFirst(CartasMesa.removeLast());
                 }
+            }
 
-                while(!AuxDeque.isEmpty()) {
-                    CartasMesa.addFirst(AuxDeque.removeLast());
-                }
+            while(!AuxDeque.isEmpty()) {
+                CartasMesa.addFirst(AuxDeque.removeLast());
             }
 
         }
@@ -95,6 +95,10 @@ public class Turno {
                 jogador.CartasColetadas.push(AuxCartaJogador.removeLast());
             }
         }
+    }
+
+    public void CompraCartas() {
+        jogador.CartasNaMão.add(MonteCartas.pop());
     }
 
 
