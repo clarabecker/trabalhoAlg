@@ -15,7 +15,7 @@ public class Turno {
         this.CartasMesa = CartasMesa;
     }
 
-    public void addCartaEsquerda(String carta) {
+    public boolean addCartaEsquerda(String carta) {
         ArrayDeque<String> AuxDeque = new ArrayDeque<>();
         boolean adicionou = false;
 
@@ -35,23 +35,22 @@ public class Turno {
             }
 
         }
-
-        if(!adicionou) {
-            System.out.println("Nenhuma carta foi adicionada");
-        }
-
+        return adicionou;
     }
 
-    public void addCartaDireita(String carta) {
+    public boolean addCartaDireita(String carta) {
         ArrayDeque<String> AuxDeque = new ArrayDeque<>();
         boolean adicionou = false;
 
         if (carta.equalsIgnoreCase(CartasMesa.last())) {
             jogador.CartasColetadas.push(CartasMesa.removeLast());
+            procurarCartaMão(carta);
+
             adicionou = true;
             while(!CartasMesa.isEmpty()) {
                 if(carta.equalsIgnoreCase(CartasMesa.last())) {
                     jogador.CartasColetadas.push(CartasMesa.removeLast());
+                    procurarCartaMão(carta);
                 } else {
                     AuxDeque.addFirst(CartasMesa.removeLast());
                 }
@@ -62,9 +61,7 @@ public class Turno {
             }
 
         }
-        if(!adicionou) {
-            System.out.println("Nenhuma carta foi adicionada");
-        }
+        return adicionou;
     }
 
     public void addCartasMesa(String carta, String lado) {
@@ -97,10 +94,18 @@ public class Turno {
         }
     }
 
-    public void CompraCartas() {
+    public void compraCartas() {
         jogador.CartasNaMão.add(MonteCartas.pop());
     }
 
+    public void procurarCartaMão(String carta) {
+        for (String cartas : jogador.CartasNaMão) {
+            if (cartas.equalsIgnoreCase(carta)) {
+                jogador.CartasNaMão.remove(carta);
+                jogador.CartasColetadas.push(carta);
+            }
+        }
+    }
 
 
 }
