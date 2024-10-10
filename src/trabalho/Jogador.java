@@ -8,6 +8,7 @@ import java.util.List;
 public class Jogador {
     public List<String> CartasNaMão = new ArrayList();
     public Stack<String> CartasColetadas = new ArrayStack<>();
+    public int pontuacao;
 
     public Jogador() {
     }
