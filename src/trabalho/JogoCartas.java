@@ -1,4 +1,4 @@
-package trabalho1;
+package src.trabalho;
 
 import deque.ArrayDeque;
 import stack.ArrayStack;
@@ -9,7 +9,7 @@ import java.util.List;
 public class JogoCartas {
 
     public static void main(String args[]) {
-        String nomeArquivo = "data-structures/src/trabalho1/partidas.txt";
+        String nomeArquivo = "src/trabalho/partidas.txt";
         List<String[]> instancias = LeitorInstancias.lerInstancias(nomeArquivo);
 
         for (int i = 0; i < 1; i++) {
@@ -32,7 +32,7 @@ public class JogoCartas {
         for (int i = 0; i < 12; i++) {
             if (i < 4) {
                 jogador1.CartasNaMão.add(CartasCompra.pop());
-            } else if (i < 8) {
+            } else if (i > 4 && i < 8) {
                 jogador2.CartasNaMão.add(CartasCompra.pop());
             } else {
                 if (!CartasCompra.isEmpty()) {
@@ -40,6 +40,12 @@ public class JogoCartas {
                 }
             }
         }
+
+       Turno turno1 = new Turno(jogador1, CartasCompra, CartasMesa);
+        turno1.addCartaDireita("DelRey");
+        turno1.addCartaEsquerda("Opala");
+
+
     }
 
 }

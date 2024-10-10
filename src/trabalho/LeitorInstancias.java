@@ -1,4 +1,4 @@
-package trabalho1;
+package src.trabalho;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
