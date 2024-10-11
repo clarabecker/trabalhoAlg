@@ -10,7 +10,7 @@ public class Main {
         String nomeArquivo = "src/trabalho/partidas.txt";
         List<String[]> instancias = LeitorInstancias.lerInstancias(nomeArquivo);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Stack<String> CartasCompra = new ArrayStack<>();
 
             for (String carta : instancias.get(i)) {

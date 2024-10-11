@@ -4,43 +4,42 @@ import stack.Stack;
 
 public class JogoCartas {
     public Stack<String> MonteCartas;
+    ArrayDeque<String> CartasMesa = new ArrayDeque<>();
+    int numeroTurnos;
 
     public JogoCartas(Stack<String> MonteCartas) {
         this.MonteCartas = MonteCartas;
+        numeroTurnos = 0;
+
     }
 
-    Jogador jogador1 = new Jogador();
-    Jogador jogador2 = new Jogador();
-    ArrayDeque<String> CartasMesa = new ArrayDeque<>();
+    Jogador jogador1 = new Jogador(1);
+    Jogador jogador2 = new Jogador(2);
 
+
+
+//para testes inciais
     public void inicioPartida(){
-        for (int i = 0; i < 12; i++) {
-            if (i < 4) {
-                jogador1.CartasNaMão.add(MonteCartas.pop());
-            } else if (i >= 4 && i < 8) {
-                jogador2.CartasNaMão.add(MonteCartas.pop());
-            } else {
-                if (!MonteCartas.isEmpty()) {
-                    CartasMesa.addFirst(MonteCartas.pop());
-                }
-            }
-        }
+        Turno turno1 = new Turno(jogador1, MonteCartas, CartasMesa);
+        Turno turno2 = new Turno(jogador2, MonteCartas, CartasMesa);
 
+        turno1.distribuirCartas(jogador1, jogador2);
         int index = 0;
+
+
 
         //Loop comentado, mas os turnos devem ocorrer até terminar as cartas
         //while(!MonteCartas.isEmpty()) {
-            Turno turno1 = new Turno(jogador1, MonteCartas, CartasMesa);
-            //carta escolhida tem que ir em uma variável conforme o comportamento do jogador
 
-            Turno turno2 = new Turno(jogador2, MonteCartas, CartasMesa);
+
+
             if(turno1.verificarCartas()!=null){
                 String cartaColetada = turno1.verificarCartas();
                 System.out.println(cartaColetada);
             }
 
 
-
+            //rever
             //ao final do turno o jogador sempre compra carta independente se conseguiu coletar ou não
             turno1.compraCartas();
 
@@ -64,6 +63,27 @@ public class JogoCartas {
         fimDoJogo();
 
     }
+/*
+    public void realizarTurno(Jogador jogador1, Jogador jogador2, ArrayDeque<String> CartasMesa) {
+        while (!MonteCartas.isEmpty()) {
+            // Jogador 1 realiza sua ação
+            Turno turnoJogador1 = new Turno(jogador1, MonteCartas, CartasMesa);
+            turnoJogador1.executarTurno();
+            numeroTurnos++;
+
+            if (MonteCartas.isEmpty()) break;
+
+            // Jogador 2 realiza sua ação
+            Turno turnoJogador2 = new Turno(jogador2, MonteCartas, CartasMesa);
+            turnoJogador2.executarTurno();
+            numeroTurnos++;
+
+            if (MonteCartas.isEmpty()) break;
+        }
+        System.out.println("Duração do jogo: " + numeroTurnos + " turnos.");
+    }
+    */
+
 
     public void fimDoJogo(){
             calcularPontuacao(jogador1);

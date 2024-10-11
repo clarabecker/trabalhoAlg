@@ -97,12 +97,26 @@ public class Turno {
         }
     }
 
+    public void distribuirCartas(Jogador j1, Jogador j2){
+        for (int i = 0; i < 12; i++) {
+            if (i < 4) {
+                j1.CartasNaMao.add(MonteCartas.pop());
+            } else if (i < 8) {
+                j2.CartasNaMao.add(MonteCartas.pop());
+            } else {
+                if (!MonteCartas.isEmpty()) {
+                    CartasMesa.addFirst(MonteCartas.pop());
+                }
+            }
+        }
+    }
+
     public void compraCartas() {
-        jogador.CartasNaMão.add(MonteCartas.pop());
+        jogador.CartasNaMao.add(MonteCartas.pop());
     }
 
     public void procurarCartaMão(String carta) {
-        Iterator<String> iterator = jogador.CartasNaMão.iterator();
+        Iterator<String> iterator = jogador.CartasNaMao.iterator();
         while (iterator.hasNext()) {
             String cartas = iterator.next();
             if (cartas.equalsIgnoreCase(carta)) {
@@ -113,7 +127,7 @@ public class Turno {
     }
 
     public String verificarCartas(){
-        for (String cartas : jogador.CartasNaMão) {
+        for (String cartas : jogador.CartasNaMao) {
             if (coletarCartaDireita(cartas)){
                 coletarCartaDireita(cartas);
                 return cartas;
@@ -125,25 +139,43 @@ public class Turno {
         return null;
     }
 
-    //retira uma carta do monte de carta e posiciona no conjunto da cartas na mesa (11)
     public void terminoTurnoGeral(){
         boolean houveColetas = (coletarCartaDireita(CartasMesa.last())||coletarCartaEsquerda(CartasMesa.first()));
-        String novaCartaMesa = MonteCartas.pop();
 
+        //Não houve coleta
+        if(!houveColetas){
+            //Comportamento dos jogadores --> PONTO 9 DO DOCUMENTO
+            String primeiraCarta = jogador.CartasNaMao.remove(0);
+            if(jogador.getId()==1){
+                CartasMesa.addFirst(primeiraCarta);
+            }else if(jogador.getId()==2){
+                CartasMesa.addLast(primeiraCarta);
+            }
+        }
+        retirarCartaFinalTurno(houveColetas);
+        compraCartas();
+
+    }
+
+    public void retirarCartaFinalTurno(boolean houveColetas){
+        //PONTO 11 DO DOCUMENTO
+        String novaCartaMesa = MonteCartas.pop();
         if(houveColetas){
-           if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
+            //Se houve coleta a nova carta é posicionada aonde ocorreu a coleta
+            if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
                 CartasMesa.addFirst(novaCartaMesa);
             } else {
-               CartasMesa.addLast(novaCartaMesa);
-           }
-        }else{
-            if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
                 CartasMesa.addLast(novaCartaMesa);
-            }else {
+            }
+        }else{
+            //Se não houve coleta, a nova carta ficará na extremidade oposta
+            if(jogador.getId()==1){
+                CartasMesa.addLast(novaCartaMesa);
+            }else if(jogador.getId()==2){
                 CartasMesa.addFirst(novaCartaMesa);
             }
         }
-        compraCartas();
+
 
     }
 
