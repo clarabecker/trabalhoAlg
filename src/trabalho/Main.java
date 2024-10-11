@@ -6,11 +6,11 @@ import stack.Stack;
 import java.util.List;
 
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String nomeArquivo = "src/trabalho/partidas.txt";
         List<String[]> instancias = LeitorInstancias.lerInstancias(nomeArquivo);
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             Stack<String> CartasCompra = new ArrayStack<>();
 
             for (String carta : instancias.get(i)) {

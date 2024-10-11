@@ -1,8 +1,11 @@
 package src.trabalho;
 
 import deque.ArrayDeque;
+import list.ArrayList;
 import stack.ArrayStack;
 import stack.Stack;
+import java.util.Iterator;
+
 
 public class Turno {
     private Jogador jogador;
@@ -15,7 +18,7 @@ public class Turno {
         this.CartasMesa = CartasMesa;
     }
 
-    public boolean addCartaEsquerda(String carta) {
+    public boolean coletarCartaEsquerda(String carta) {
         ArrayDeque<String> AuxDeque = new ArrayDeque<>();
         boolean adicionou = false;
 
@@ -38,7 +41,7 @@ public class Turno {
         return adicionou;
     }
 
-    public boolean addCartaDireita(String carta) {
+    public boolean coletarCartaDireita(String carta) {
         ArrayDeque<String> AuxDeque = new ArrayDeque<>();
         boolean adicionou = false;
 
@@ -99,12 +102,49 @@ public class Turno {
     }
 
     public void procurarCartaMão(String carta) {
-        for (String cartas : jogador.CartasNaMão) {
+        Iterator<String> iterator = jogador.CartasNaMão.iterator();
+        while (iterator.hasNext()) {
+            String cartas = iterator.next();
             if (cartas.equalsIgnoreCase(carta)) {
-                jogador.CartasNaMão.remove(carta);
+                iterator.remove();
                 jogador.CartasColetadas.push(carta);
             }
         }
+    }
+
+    public String verificarCartas(){
+        for (String cartas : jogador.CartasNaMão) {
+            if (coletarCartaDireita(cartas)){
+                coletarCartaDireita(cartas);
+                return cartas;
+            }else if(coletarCartaEsquerda(cartas)){
+                coletarCartaEsquerda(cartas);
+                return cartas;
+            }
+        }
+        return null;
+    }
+
+    //retira uma carta do monte de carta e posiciona no conjunto da cartas na mesa (11)
+    public void terminoTurnoGeral(){
+        boolean houveColetas = (coletarCartaDireita(CartasMesa.last())||coletarCartaEsquerda(CartasMesa.first()));
+        String novaCartaMesa = MonteCartas.pop();
+
+        if(houveColetas){
+           if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
+                CartasMesa.addFirst(novaCartaMesa);
+            } else {
+               CartasMesa.addLast(novaCartaMesa);
+           }
+        }else{
+            if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
+                CartasMesa.addLast(novaCartaMesa);
+            }else {
+                CartasMesa.addFirst(novaCartaMesa);
+            }
+        }
+        compraCartas();
+
     }
 
 
