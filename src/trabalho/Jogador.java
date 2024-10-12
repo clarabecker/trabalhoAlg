@@ -22,13 +22,10 @@ public class Jogador {
         return this.id;
     }
 
-    public void adicionarCartaNaMao(String carta) {
-        CartasNaMao.add(carta);
+    public void compraCartas(Stack<String> MonteCartas) {
+        CartasNaMao.add(MonteCartas.pop());
     }
 
-    public String removerPrimeiraCarta() {;
-        return CartasNaMao.remove(0);
-    }
 
     // Remove a última carta da mão e retorna
     public String removerUltimaCarta() {
@@ -36,12 +33,22 @@ public class Jogador {
         return CartasNaMao.remove(ultimoIndice);
     }
 
-    public void coletarCarta(String carta) {
-        CartasColetadas.push(carta);
+    public String removerPrimeiraCarta() {
+        return CartasNaMao.remove(0);
     }
+
 
     public int getTotalCartasColetadas() {
         return CartasColetadas.size();
+    }
+
+    public boolean podeColetar(String cartaMesa){
+        for(String carta : CartasNaMao){
+            if(cartaMesa.equalsIgnoreCase(carta)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void mostrarCartasNaMao() {
@@ -51,5 +58,6 @@ public class Jogador {
     public void mostrarCartasColetadas() {
         System.out.println("Cartas coletadas pelo Jogador " + id + ": " + CartasColetadas);
     }
+
 
 }

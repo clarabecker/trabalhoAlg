@@ -26,23 +26,55 @@ public class JogoCartas {
         turno1.distribuirCartas(jogador1, jogador2);
         int index = 0;
 
+        //depois colocar metodo realizarTurnos()
+
+        /*TESTE DE FLUXO DO TURNO
+        System.out.println("Jogador 1");
+        System.out.println("INICIO: ");
+        //
+        System.out.println("Mesa:");
+        turno1.mostrarCartasMesa();
+        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
+        jogador1.mostrarCartasNaMao();
+        turno1.verificarCartas();
+        jogador1.mostrarCartasColetadas();
+
+        System.out.println("");
 
 
-        //Loop comentado, mas os turnos devem ocorrer até terminar as cartas
-        //while(!MonteCartas.isEmpty()) {
+        System.out.println("Mesa:");
+        turno1.mostrarCartasMesa();
+        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
+        jogador1.mostrarCartasNaMao();
+        turno1.verificarCartas();
+        jogador1.mostrarCartasColetadas();
 
 
+        System.out.println("");
+        System.out.println("Jogador 2:");
+        System.out.println("Mesa:");
+        turno2.mostrarCartasMesa();
+        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
+        jogador1.mostrarCartasNaMao();
+        turno2.verificarCartas();
 
-            if(turno1.verificarCartas()!=null){
-                String cartaColetada = turno1.verificarCartas();
-                System.out.println(cartaColetada);
-            }
+        //turno1.executarTurno();
+
+        jogador1.mostrarCartasColetadas();
+
+        System.out.println("");
+
+        System.out.println("Mesa:");
+        turno2.mostrarCartasMesa();
+        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
+        jogador1.mostrarCartasNaMao();
+        turno1.verificarCartas();
+        jogador1.mostrarCartasColetadas();
 
 
-            //rever
+        /*rever
             //ao final do turno o jogador sempre compra carta independente se conseguiu coletar ou não
-            turno1.compraCartas();
-
+           // turno1.compraCartas();
 
 
             String cartaJogador2 = "147";
@@ -51,24 +83,25 @@ public class JogoCartas {
             if(!turno2.coletarCartaDireita(cartaJogador2)) {
                 cartaJogador2 = "Fusca";
                 turno2.addCartasMesa(cartaJogador2, "direita");
-                turno2.compraCartas();
+                jogador2.compraCartas(MonteCartas);
             }
-            turno2.compraCartas();
+           // turno2.compraCartas();
 
             //IMPLEMENTEI O TURNO -->  ARRAYLIST
             turno2.terminoTurnoGeral();
         //}
-
+*/
         //Metodo para teste --> fim de jogo
+        realizarTurnos(jogador1, jogador2, CartasMesa);
         fimDoJogo();
 
     }
-/*
-    public void realizarTurno(Jogador jogador1, Jogador jogador2, ArrayDeque<String> CartasMesa) {
+
+    public void realizarTurnos(Jogador jogador1, Jogador jogador2, ArrayDeque<String> CartasMesa) {
         while (!MonteCartas.isEmpty()) {
             // Jogador 1 realiza sua ação
             Turno turnoJogador1 = new Turno(jogador1, MonteCartas, CartasMesa);
-            turnoJogador1.executarTurno();
+            turnoJogador1.executarTurno(); //IMPLEMENTAR METODO
             numeroTurnos++;
 
             if (MonteCartas.isEmpty()) break;
@@ -81,8 +114,12 @@ public class JogoCartas {
             if (MonteCartas.isEmpty()) break;
         }
         System.out.println("Duração do jogo: " + numeroTurnos + " turnos.");
-    }
-    */
+   }
+
+
+    //*/
+
+
 
 
     public void fimDoJogo(){
@@ -110,6 +147,6 @@ public class JogoCartas {
             index++;
         }
 
-        jogador.pontuacao = index;
+         jogador.pontuacao = index;
     }
 }
