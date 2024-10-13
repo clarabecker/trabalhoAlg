@@ -38,11 +38,6 @@ public class Jogador {
     }
 
 
-    public int getTotalCartasColetadas() {
-        return CartasColetadas.size();
-    }
-
-
     public boolean podeColetar(String cartaMesa){
         for(String carta : CartasNaMao){
             if(cartaMesa.equalsIgnoreCase(carta)){
@@ -50,14 +45,6 @@ public class Jogador {
             }
         }
         return false;
-    }
-
-    public void mostrarCartasNaMao() {
-        System.out.println("Cartas na mão do Jogador " + id + ": " + CartasNaMao);
-    }
-
-    public void mostrarCartasColetadas() {
-        System.out.println("Cartas coletadas pelo Jogador " + id + ": " + CartasColetadas);
     }
 
 

@@ -18,13 +18,9 @@ public class JogoCartas {
 
 
 
-//para testes inciais
     public void inicioPartida(){
-
-        //Metodo para teste --> fim de jogo
         realizarTurnos(jogador1, jogador2, CartasMesa);
         fimDoJogo();
-
     }
 
 
@@ -61,7 +57,7 @@ public class JogoCartas {
 
             if (MonteCartas.isEmpty()) break;
         }
-        System.out.println("Duração do jogo: " + numeroTurnos + " turnos.");
+        //System.out.println("Duração do jogo: " + numeroTurnos + " turnos.");
    }
 
 
