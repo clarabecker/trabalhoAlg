@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.NoSuchElementException;
+
 public class ArrayDeque<E> implements Deque<E> {
 	public static final int CAPACITY = 1000;
 	private E[] data;
@@ -90,4 +92,7 @@ public class ArrayDeque<E> implements Deque<E> {
 		sb.append(")");
 		return sb.toString();
 	}
+
+
+
 }

@@ -4,6 +4,8 @@ import deque.ArrayDeque;
 import list.ArrayList;
 import stack.ArrayStack;
 import stack.Stack;
+
+import java.util.Deque;
 import java.util.Iterator;
 
 
@@ -11,15 +13,14 @@ public class Turno {
     private  Jogador jogador;
     private  ArrayDeque<String> CartasMesa;
     private Stack<String> MonteCartas;
+    private boolean houveColetasEsquerda = false;
+    private boolean houveColetasDireita = false;
+
 
     public Turno(Jogador jogador, Stack<String> MonteCartas, ArrayDeque<String> CartasMesa) {
         this.jogador = jogador;
         this.MonteCartas = MonteCartas;
         this.CartasMesa = CartasMesa;
-    }
-
-    public void mostrarCartasMesa(){
-        System.out.println(CartasMesa.toString());
     }
 
     public boolean coletarCartaEsquerda(String carta) {
@@ -28,7 +29,10 @@ public class Turno {
 
         if (carta.equalsIgnoreCase(CartasMesa.first())) {
             jogador.CartasColetadas.push(CartasMesa.removeFirst());
+            int indice = jogador.CartasNaMao.indexOf(carta);
+            jogador.CartasColetadas.push(jogador.CartasNaMao.remove(indice));
             adicionou = true;
+
             while(!CartasMesa.isEmpty()) {
                 if(carta.equalsIgnoreCase(CartasMesa.last())) {
                     jogador.CartasColetadas.push(CartasMesa.removeFirst());
@@ -42,6 +46,7 @@ public class Turno {
             }
 
         }
+        houveColetasEsquerda = true;
         return adicionou;
     }
 
@@ -51,13 +56,13 @@ public class Turno {
 
         if (carta.equalsIgnoreCase(CartasMesa.last())) {
             jogador.CartasColetadas.push(CartasMesa.removeLast());
-            procurarCartaMão(carta);
+            int indice = jogador.CartasNaMao.indexOf(carta);
+            jogador.CartasColetadas.push(jogador.CartasNaMao.remove(indice));
 
             adicionou = true;
             while(!CartasMesa.isEmpty()) {
                 if(carta.equalsIgnoreCase(CartasMesa.last())) {
                     jogador.CartasColetadas.push(CartasMesa.removeLast());
-                    procurarCartaMão(carta);
                 } else {
                     AuxDeque.addFirst(CartasMesa.removeLast());
                 }
@@ -66,81 +71,87 @@ public class Turno {
             while(!AuxDeque.isEmpty()) {
                 CartasMesa.addFirst(AuxDeque.removeLast());
             }
-
         }
+        houveColetasDireita = true;
         return adicionou;
     }
 
+    public int procurarDireita(String carta) {
+        ArrayDeque<String> auxDeque = new ArrayDeque<>();
+        int cont = 1;
 
-    //Distribuir cartas para Jogadores e Mesa --> PONTOS 3 E 4
-    public void distribuirCartas(Jogador j1, Jogador j2){
-        for (int i = 0; i < 12; i++) {
-            if (i < 4) {
-                j1.CartasNaMao.add(MonteCartas.pop());
-            } else if (i < 8) {
-                j2.CartasNaMao.add(MonteCartas.pop());
-            } else {
-                if (!MonteCartas.isEmpty()) {
-                    CartasMesa.addFirst(MonteCartas.pop());
+            auxDeque.addFirst(CartasMesa.removeLast());
+            while (!CartasMesa.isEmpty()) {
+                if (carta.equalsIgnoreCase(CartasMesa.last())) {
+                    auxDeque.addFirst(CartasMesa.removeLast());
+                    cont++;
+                } else {
+                    break;
                 }
             }
-        }
+
+            while (!auxDeque.isEmpty()) {
+                CartasMesa.addLast(auxDeque.removeLast());
+            }
+        return cont;
     }
 
+    public int procurarEsquerda(String carta) {
+        ArrayDeque<String> auxDeque = new ArrayDeque<>();
+        int cont = 1;
 
+            auxDeque.addFirst(CartasMesa.removeFirst());
+            while (!CartasMesa.isEmpty()) {
+                if (carta.equalsIgnoreCase(CartasMesa.first())) {
+                    auxDeque.addFirst(CartasMesa.removeFirst());
+                    cont++;
 
-    public void procurarCartaMão(String carta) {
-        Iterator<String> iterator = jogador.CartasNaMao.iterator();
-        while (iterator.hasNext()) {
-            String cartas = iterator.next();
-            if (cartas.equalsIgnoreCase(carta)) {
-                iterator.remove();
-                jogador.CartasColetadas.push(carta);
+                } else {
+                    break;
+                }
             }
-        }
-    }
 
-    //PARA ALGUNS TESTES
-    public int verificarCartas(){
-        int cont=0;
-        for (String cartas : jogador.CartasNaMao) {
-            if (coletarCartaDireita(cartas)){
-                cont++;
-
-            }else if(coletarCartaEsquerda(cartas)){
-                coletarCartaEsquerda(cartas);
-
+            while (!auxDeque.isEmpty()) {
+                CartasMesa.addFirst(auxDeque.removeLast());
             }
-        }
+        //System.out.println("Contador esquerda: "+cont);
         return cont;
     }
 
     public void terminoTurnoGeral(){
-        boolean houveColetas = (coletarCartaDireita(CartasMesa.last())||coletarCartaEsquerda(CartasMesa.first()));
 
         //Não houve coleta
-        if(!houveColetas){
-            //Comportamento dos jogadores --> PONTO 9 DO DOCUMENTO
+        if(!houveColetasDireita && !houveColetasEsquerda){
+            //Comportamento dos jogadores para colocar carta na mesa --> PONTO 9 DO DOCUMENTO
             if(jogador.getId()==1){
                 CartasMesa.addFirst(jogador.removerPrimeiraCarta());
             }else if(jogador.getId()==2){
-
                 CartasMesa.addLast(jogador.removerUltimaCarta());
             }
+            addCartaFinalTurno(false, null);
         }
-        addCartaFinalTurno(houveColetas);
+
+        //CHAMADA DO PONTO 11 DO DOCUMENTO
+        if(houveColetasDireita){
+            addCartaFinalTurno(true,"direita");
+        }else if(houveColetasEsquerda){
+            addCartaFinalTurno(true,"esquerda");
+        }
+
         jogador.compraCartas(MonteCartas);
 
     }
 
-    public void addCartaFinalTurno(boolean houveColetas){
+
+    //PONTO 11
+    public void addCartaFinalTurno(boolean houveColeta, String lado){
         //PONTO 11 DO DOCUMENTO
         String novaCartaMesa = MonteCartas.pop();
-        if(houveColetas){
+        if(houveColeta){
             //Se houve coleta a nova carta é posicionada aonde ocorreu a coleta
-            if(!CartasMesa.isEmpty() && CartasMesa.first().equalsIgnoreCase(novaCartaMesa)){
+            if(lado.equals("esquerda")){
                 CartasMesa.addFirst(novaCartaMesa);
-            } else {
+            } else if(lado.equals("direita")){{
                 CartasMesa.addLast(novaCartaMesa);
             }
         }else{
@@ -150,36 +161,62 @@ public class Turno {
             }else if(jogador.getId()==2){
                 CartasMesa.addFirst(novaCartaMesa);
             }
+            }
         }
-
-
     }
 
 
-    //Implementar o fluxo do jogo
+    //Implementação do fluxo do jogo
     public void executarTurno() {
         boolean coletou = false;
 
         //Teste para ver se podemos coletar
-        if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.first())) {
-            coletou = true;
-            coletarCartaEsquerda(CartasMesa.first());
-        } else if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.last())) {
-            coletou = true;
-            coletarCartaDireita(CartasMesa.last());
+        if(jogador.getId()==1){
+            if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.first())) {
+                coletou = true;
+                coletarCartaEsquerda(CartasMesa.first());
+            } else if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.last())) {
+                coletou = true;
+                coletarCartaDireita(CartasMesa.last());
+            }
+        //comportamento de vantagem do jogador 2
+        }else if(jogador.getId()==2){
+            int contEsquerda = 0, contDireita = 0;
+            if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.first())) {
+                coletou = true;
+               // coletarCartaEsquerda(CartasMesa.first());
+                int quantidadeEsquerda = procurarEsquerda(CartasMesa.first());
+                if(quantidadeEsquerda>contEsquerda){
+                    contEsquerda = quantidadeEsquerda;
+                }
+            } else if (!CartasMesa.isEmpty() && jogador.podeColetar(CartasMesa.last())) {
+                coletou = true;
+               // coletarCartaDireita(CartasMesa.last());
+                int quantidadeDireita = procurarDireita(CartasMesa.last());
+                if(quantidadeDireita>contDireita){
+                    contDireita = quantidadeDireita;
+                }
+            }
+
+            if((contDireita==contEsquerda) && ((contDireita+contEsquerda)!=0)) {
+                coletarCartaDireita(CartasMesa.last());
+            } else if(contEsquerda>contDireita) {
+                coletarCartaEsquerda(CartasMesa.first());
+            }
         }
+
 
         //Se não coletar
         if (!coletou) {
             terminoTurnoGeral();
         }
 
-        //Se o monte estiver vazio
+        //FINAL DO TURNO --> PONTO 10
         if (!MonteCartas.isEmpty()) {
             jogador.compraCartas(MonteCartas);
         }
 
-        addCartaFinalTurno(coletou);
+        terminoTurnoGeral();
     }
 
 }

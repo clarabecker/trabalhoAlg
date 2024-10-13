@@ -20,88 +20,36 @@ public class JogoCartas {
 
 //para testes inciais
     public void inicioPartida(){
-        Turno turno1 = new Turno(jogador1, MonteCartas, CartasMesa);
-        Turno turno2 = new Turno(jogador2, MonteCartas, CartasMesa);
 
-        turno1.distribuirCartas(jogador1, jogador2);
-        int index = 0;
-
-        //depois colocar metodo realizarTurnos()
-
-        /*TESTE DE FLUXO DO TURNO
-        System.out.println("Jogador 1");
-        System.out.println("INICIO: ");
-        //
-        System.out.println("Mesa:");
-        turno1.mostrarCartasMesa();
-        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
-        jogador1.mostrarCartasNaMao();
-        turno1.verificarCartas();
-        jogador1.mostrarCartasColetadas();
-
-        System.out.println("");
-
-
-        System.out.println("Mesa:");
-        turno1.mostrarCartasMesa();
-        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
-        jogador1.mostrarCartasNaMao();
-        turno1.verificarCartas();
-        jogador1.mostrarCartasColetadas();
-
-
-        System.out.println("");
-        System.out.println("Jogador 2:");
-        System.out.println("Mesa:");
-        turno2.mostrarCartasMesa();
-        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
-        jogador1.mostrarCartasNaMao();
-        turno2.verificarCartas();
-
-        //turno1.executarTurno();
-
-        jogador1.mostrarCartasColetadas();
-
-        System.out.println("");
-
-        System.out.println("Mesa:");
-        turno2.mostrarCartasMesa();
-        System.out.println("Total de cartas coletadas: "+jogador1.getTotalCartasColetadas());
-        jogador1.mostrarCartasNaMao();
-        turno1.verificarCartas();
-        jogador1.mostrarCartasColetadas();
-
-
-        /*rever
-            //ao final do turno o jogador sempre compra carta independente se conseguiu coletar ou não
-           // turno1.compraCartas();
-
-
-            String cartaJogador2 = "147";
-
-            //Se ele não consegue coletar carta ele adiciona uma carta na mesa
-            if(!turno2.coletarCartaDireita(cartaJogador2)) {
-                cartaJogador2 = "Fusca";
-                turno2.addCartasMesa(cartaJogador2, "direita");
-                jogador2.compraCartas(MonteCartas);
-            }
-           // turno2.compraCartas();
-
-            //IMPLEMENTEI O TURNO -->  ARRAYLIST
-            turno2.terminoTurnoGeral();
-        //}
-*/
         //Metodo para teste --> fim de jogo
         realizarTurnos(jogador1, jogador2, CartasMesa);
         fimDoJogo();
 
     }
 
+
+    //Distribuir cartas para Jogadores e Mesa --> PONTOS 3 E 4
+    public void distribuirCartas(Jogador j1, Jogador j2){
+        for (int i = 0; i < 12; i++) {
+            if (i < 4) {
+                j1.CartasNaMao.add(MonteCartas.pop());
+            } else if (i < 8) {
+                j2.CartasNaMao.add(MonteCartas.pop());
+            } else {
+                if (!MonteCartas.isEmpty()) {
+                    CartasMesa.addFirst(MonteCartas.pop());
+                }
+            }
+        }
+    }
+
+
     public void realizarTurnos(Jogador jogador1, Jogador jogador2, ArrayDeque<String> CartasMesa) {
+        distribuirCartas(jogador1, jogador2);
         while (!MonteCartas.isEmpty()) {
             // Jogador 1 realiza sua ação
             Turno turnoJogador1 = new Turno(jogador1, MonteCartas, CartasMesa);
-            turnoJogador1.executarTurno(); //IMPLEMENTAR METODO
+            turnoJogador1.executarTurno();
             numeroTurnos++;
 
             if (MonteCartas.isEmpty()) break;
@@ -117,11 +65,7 @@ public class JogoCartas {
    }
 
 
-    //*/
-
-
-
-
+    //PONTO 12 --> FIM DO JOGO
     public void fimDoJogo(){
             calcularPontuacao(jogador1);
             calcularPontuacao(jogador2);

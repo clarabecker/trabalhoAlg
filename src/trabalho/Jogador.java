@@ -42,6 +42,7 @@ public class Jogador {
         return CartasColetadas.size();
     }
 
+
     public boolean podeColetar(String cartaMesa){
         for(String carta : CartasNaMao){
             if(cartaMesa.equalsIgnoreCase(carta)){
