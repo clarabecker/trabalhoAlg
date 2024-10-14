@@ -1,4 +1,4 @@
-package src.trabalho;
+package src;
 import deque.ArrayDeque;
 import stack.Stack;
 
